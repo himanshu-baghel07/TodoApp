@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import "./App.css";
 import AddTask from "./components/AddTask";
 import TaskList from "./components/TaskList";
@@ -7,13 +7,31 @@ import { v4 as uuidv4 } from "uuid";
 import { ADD_ITEM, CHANGE_ITEM, DELETE_ITEM } from "./components/Action";
 
 const App = () => {
-  const [state, dispatch] = useReducer(Reducer, []);
+  const [state, dispatch] = useReducer(Reducer, getInitialTodoList());
   const ID = uuidv4();
 
-  const handleAddItem = (text, done) => {
+  function getInitialTodoList() {
+    const storedTodo = localStorage.getItem("todoList");
+    return storedTodo ? JSON.parse(storedTodo) : [];
+  }
+
+  const formatDueDate = (date) => {
+    const formattedDate = new Date(date);
+    const day = formattedDate.getDate();
+    const month = formattedDate.getMonth() + 1;
+    const year = formattedDate.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const handleAddItem = (text, done, dueDate) => {
     dispatch({
       type: ADD_ITEM,
-      payload: { id: ID, text: text, done: done },
+      payload: {
+        id: ID,
+        text: text,
+        done: done,
+        dueDate: dueDate,
+      },
     });
   };
 
@@ -32,6 +50,10 @@ const App = () => {
       id,
     });
   };
+
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(state));
+  }, [state]);
 
   return (
     <div id="list">

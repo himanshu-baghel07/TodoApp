@@ -13,6 +13,14 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
     handleChangeItem(task.id, task.done, editedText);
   };
 
+  const formatDueDate = (date) => {
+    const formattedDate = new Date(date);
+    const day = formattedDate.getDate();
+    const month = formattedDate.getMonth() + 1;
+    const year = formattedDate.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   let content;
   if (isEditing) {
     content = (
@@ -25,6 +33,7 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
     content = (
       <>
         {task.text}
+        {task.dueDate}
         <button onClick={() => setIsEditing(true)}>Edit</button>
       </>
     );
@@ -42,6 +51,7 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
         onChange={handleCheckboxChange}
       />
       {content}
+
       <button onClick={() => handleDeleteItem(task.id)}>Delete</button>
     </label>
   );

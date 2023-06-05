@@ -9,6 +9,7 @@ const Reducer = (state, action) => {
           id: action.payload.id,
           text: action.payload.text,
           done: action.payload.done,
+          dueDate: action.payload.dueDate,
         },
       ];
     case CHANGE_ITEM:
