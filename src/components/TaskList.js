@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button, Input, Label } from "reactstrap";
 
 const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -25,16 +26,16 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
   if (isEditing) {
     content = (
       <>
-        <input value={editedText} onChange={handleTextChange} />
-        <button onClick={handleDoneClick}>Done</button>
+        <Input value={editedText} onChange={handleTextChange} />
+        <Button onClick={handleDoneClick}>Done</Button>
       </>
     );
   } else {
     content = (
       <>
-        {task.text}
-        {task.dueDate}
-        <button onClick={() => setIsEditing(true)}>Edit</button>
+        <Label> {task.text}</Label>
+        <Label> {task.dueDate}</Label>
+        <Button onClick={() => setIsEditing(true)}>Edit</Button>
       </>
     );
   }
@@ -44,16 +45,18 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
   };
 
   return (
-    <label>
-      <input
+    <Label
+      style={{ marginLeft: "5%", display: "flex", alignContent: "center" }}
+    >
+      <Input
         type="checkbox"
         checked={task.done}
         onChange={handleCheckboxChange}
       />
       {content}
 
-      <button onClick={() => handleDeleteItem(task.id)}>Delete</button>
-    </label>
+      <Button onClick={() => handleDeleteItem(task.id)}>Delete</Button>
+    </Label>
   );
 };
 

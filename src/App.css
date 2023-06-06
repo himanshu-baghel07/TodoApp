@@ -1,16 +1,10 @@
-h1 {
-  font-family: cursive;
-}
-
 #list {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: darkolivegreen;
-  margin-left: 35%;
-  margin-right: 35%;
-}
-body {
-  background-color: black;
+  margin: 0%;
+  padding: 1%;
+  width: 90%;
+  background-color: rgb(234, 239, 244);
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  box-shadow: 0 2px 5px gray;
 }

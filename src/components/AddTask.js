@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { FaCalendar } from "react-icons/fa";
+import { Button, Input, Label } from "reactstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddTask = ({ handleAddItem }) => {
   const [inputValue, setInputValue] = useState("");
@@ -36,21 +40,29 @@ const AddTask = ({ handleAddItem }) => {
   };
 
   return (
-    <div>
-      <input
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        // width: "80%",
+        marginTop: "3%",
+        marginBottom: "2%",
+      }}
+    >
+      <Input
         placeholder="Add Task"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
+        style={{ width: "100%", marginRight: "1rem" }}
       />
-      <input
+
+      <Input
         type="date"
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
+        style={{ marginRight: "1rem" }}
       />
-      {/* <p>Date: {formatDate(currentDateTime)}</p>
-      {/* <p>Time: {formatTime(currentDateTime)}</p> */}
-      <p>Due Date: {formatDueDate(dueDate)}</p>
-      <button onClick={handleChange}>Add</button>
+      <Button onClick={handleChange}>Add</Button>
     </div>
   );
 };

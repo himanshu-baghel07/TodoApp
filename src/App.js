@@ -5,6 +5,10 @@ import TaskList from "./components/TaskList";
 import Reducer from "./components/Reducer";
 import { v4 as uuidv4 } from "uuid";
 import { ADD_ITEM, CHANGE_ITEM, DELETE_ITEM } from "./components/Action";
+import "bootstrap/dist/css/bootstrap.css";
+import { Container, ModalHeader } from "reactstrap";
+import "react-icons/fa";
+import { FaCheckSquare } from "react-icons/fa";
 
 const App = () => {
   const [state, dispatch] = useReducer(Reducer, getInitialTodoList());
@@ -56,9 +60,37 @@ const App = () => {
   }, [state]);
 
   return (
-    <div id="list">
-      <h1>List of Items</h1>
-      <AddTask handleAddItem={handleAddItem} />
+    <Container id="list" fluid>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h1 style={{ textAlign: "center" }}>
+          <FaCheckSquare /> List of Items
+        </h1>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <AddTask handleAddItem={handleAddItem} />
+      </div>
+
+      <hr
+        style={{
+          height: "1px",
+
+          backgroundColor: "black",
+          marginRight: "1rem",
+        }}
+      />
       <div>
         {" "}
         {state.map((task) => (
@@ -77,7 +109,7 @@ const App = () => {
           </div>
         ))}
       </div>
-    </div>
+    </Container>
   );
 };
 
