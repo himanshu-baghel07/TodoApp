@@ -1,17 +1,23 @@
 import React, { useState } from "react";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Button, Input, Label } from "reactstrap";
 
 const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(task.text);
+  const [editedDueDate, setEditedDueDate] = useState(task.dueDate);
 
   const handleTextChange = (e) => {
     setEditedText(e.target.value);
   };
 
+  const handleDueDateChange = (e) => {
+    setEditedDueDate(e.target.value);
+  };
+
   const handleDoneClick = () => {
     setIsEditing(false);
-    handleChangeItem(task.id, task.done, editedText);
+    handleChangeItem(task.id, task.done, editedText, editedDueDate);
   };
 
   const formatDueDate = (date) => {
@@ -26,27 +32,84 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
   if (isEditing) {
     content = (
       <>
-        <Input value={editedText} onChange={handleTextChange} />
+        <Input
+          value={editedText}
+          onChange={handleTextChange}
+          style={{ width: "50%" }}
+        />
+        <Input
+          type="date"
+          value={editedDueDate}
+          onChange={handleDueDateChange}
+          style={{ width: "30%" }}
+        />
+
         <Button onClick={handleDoneClick}>Done</Button>
       </>
     );
   } else {
     content = (
       <>
-        <Label> {task.text}</Label>
-        <Label> {task.dueDate}</Label>
-        <Button onClick={() => setIsEditing(true)}>Edit</Button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "50%",
+          }}
+        >
+          <Label
+            style={{
+              width: "70%",
+              wordWrap: "break-word",
+
+              borderLeft: "2px solid black",
+              paddingLeft: "10px",
+            }}
+          >
+            {" "}
+            {task.text}
+          </Label>
+          <Label
+            style={{
+              width: "20%",
+              borderLeft: "2px solid black",
+              paddingLeft: "10px",
+            }}
+          >
+            {" "}
+            {formatDueDate(task.dueDate)}
+          </Label>
+        </div>
+
+        <div style={{ marginLeft: "auto", justifySelf: "end" }}>
+          <FaEdit
+            onClick={() => setIsEditing(true)}
+            style={{ color: "blue", cursor: "pointer" }}
+          />
+          {"  "}
+          <FaTrashAlt
+            onClick={() => handleDeleteItem(task.id)}
+            style={{ color: "red", cursor: "pointer" }}
+          />
+        </div>
       </>
     );
   }
 
   const handleCheckboxChange = () => {
-    handleChangeItem(task.id, !task.done, task.text);
+    handleChangeItem(task.id, !task.done, task.text, task.dueDate);
   };
 
   return (
-    <Label
-      style={{ marginLeft: "5%", display: "flex", alignContent: "center" }}
+    <div
+      style={{
+        marginLeft: "5%",
+        marginRight: "5%",
+        display: "flex",
+        alignContent: "center",
+        gap: "15%",
+        fontSize: "1.2rem",
+      }}
     >
       <Input
         type="checkbox"
@@ -54,9 +117,7 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
         onChange={handleCheckboxChange}
       />
       {content}
-
-      <Button onClick={() => handleDeleteItem(task.id)}>Delete</Button>
-    </Label>
+    </div>
   );
 };
 

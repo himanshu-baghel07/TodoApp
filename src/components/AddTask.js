@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { FaCalendar } from "react-icons/fa";
-import { Button, Input, Label } from "reactstrap";
-import DatePicker from "react-datepicker";
+import React, { useState } from "react";
+import { Button, Input } from "reactstrap";
+
 import "react-datepicker/dist/react-datepicker.css";
 
 const AddTask = ({ handleAddItem }) => {
   const [inputValue, setInputValue] = useState("");
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
   const [dueDate, setDueDate] = useState("");
 
   const handleChange = () => {
@@ -15,36 +14,13 @@ const AddTask = ({ handleAddItem }) => {
     setInputValue("");
   };
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setCurrentDateTime(new Date());
-  //   }, 1000);
-  //   return clearInterval(timer);
-  // }, []);
-
-  // const formatDate = (date) => {
-  //   const option = { day: "2-digit", month: "2-digit", year: "numeric" };
-  //   return date.toLocaleDateString(undefined, option);
-  // };
-
-  // const formatTime = (date) => {
-  //   const option = { hour: "2-digit", minute: "2-digit" };
-  //   return date.toLocaleTimeString(undefined, option);
-  // };
-
-  const formatDueDate = (date) => {
-    const day = date.slice(8, 10);
-    const month = date.slice(5, 7);
-    const year = date.slice(0, 4);
-    return `${day}/${month}/${year}`;
-  };
-
   return (
     <div
       style={{
-        display: "flex",
+        display: "grid",
+        gridTemplateColumns: "3fr 1fr auto", // Added "auto" for the button column
+        gap: "1rem", // Added gap between grid items
         alignItems: "center",
-        // width: "80%",
         marginTop: "3%",
         marginBottom: "2%",
       }}
@@ -53,16 +29,18 @@ const AddTask = ({ handleAddItem }) => {
         placeholder="Add Task"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        style={{ width: "100%", marginRight: "1rem" }}
+        style={{ width: "100%" }}
       />
 
       <Input
         type="date"
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
-        style={{ marginRight: "1rem" }}
       />
-      <Button onClick={handleChange}>Add</Button>
+
+      <Button color="primary" onClick={handleChange}>
+        Add
+      </Button>
     </div>
   );
 };

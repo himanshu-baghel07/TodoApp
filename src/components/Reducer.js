@@ -19,6 +19,7 @@ const Reducer = (state, action) => {
             ...task,
             done: action.done,
             text: action.text,
+            dueDate: action.dueDate,
           };
         }
         return task;
