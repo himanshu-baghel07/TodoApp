@@ -27,7 +27,9 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
     const year = formattedDate.getFullYear();
     return `${day}/${month}/${year}`;
   };
+  const gui = task.dueDate;
 
+  console.log("dddd", formatDueDate(gui));
   let content;
   if (isEditing) {
     content = (
@@ -54,6 +56,7 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
           style={{
             display: "flex",
             justifyContent: "space-between",
+            alignItems: "center",
             width: "50%",
           }}
         >
@@ -81,7 +84,15 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
           </Label>
         </div>
 
-        <div style={{ marginLeft: "auto", justifySelf: "end" }}>
+        <div
+          style={{
+            marginLeft: "auto",
+            justifySelf: "end",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
           <FaEdit
             onClick={() => setIsEditing(true)}
             style={{ color: "blue", cursor: "pointer" }}
@@ -106,7 +117,8 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
         marginLeft: "5%",
         marginRight: "5%",
         display: "flex",
-        alignContent: "center",
+
+        alignItems: "center",
         gap: "15%",
         fontSize: "1.2rem",
       }}
@@ -115,6 +127,7 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
         type="checkbox"
         checked={task.done}
         onChange={handleCheckboxChange}
+        style={{ borderColor: "black", cursor: "pointer", fontSize: "1.5rem" }}
       />
       {content}
     </div>

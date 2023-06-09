@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Input } from "reactstrap";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { FaCalendar } from "react-icons/fa";
 
 const AddTask = ({ handleAddItem }) => {
   const [inputValue, setInputValue] = useState("");
