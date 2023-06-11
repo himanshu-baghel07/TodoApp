@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import { Button, Input } from "reactstrap";
+import { Dataset, DateRange } from "@mui/icons-material";
+import { Box, Button, Input } from "@mui/material";
 
-import "react-datepicker/dist/react-datepicker.css";
-import { FaCalendar } from "react-icons/fa";
+import React, { useState } from "react";
 
 const AddTask = ({ handleAddItem }) => {
   const [inputValue, setInputValue] = useState("");
-
   const [dueDate, setDueDate] = useState("");
 
   const handleChange = () => {
@@ -16,33 +14,34 @@ const AddTask = ({ handleAddItem }) => {
   };
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "3fr 1fr auto", // Added "auto" for the button column
-        gap: "1rem", // Added gap between grid items
-        alignItems: "center",
-        marginTop: "3%",
-        marginBottom: "2%",
-      }}
+    <Box
+      id="addTask"
+      // style={{
+      //   display: "flex",
+      //   flexDirection: "row",
+      //   justifyContent: "space-evenly",
+      //   width: "100%",
+      // }}
     >
       <Input
-        placeholder="Add Task"
+        id="addTaskInput"
+        className="add-task-input"
         value={inputValue}
+        placeholder="Task"
         onChange={(e) => setInputValue(e.target.value)}
-        style={{ width: "100%" }}
       />
 
       <Input
+        id="addTaskDuedate"
         type="date"
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
       />
 
-      <Button color="primary" onClick={handleChange}>
+      <Button id="addButton" color="primary" onClick={handleChange}>
         Add
       </Button>
-    </div>
+    </Box>
   );
 };
 

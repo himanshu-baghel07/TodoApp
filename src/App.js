@@ -5,23 +5,23 @@ import TaskList from "./components/TaskList";
 import Reducer from "./components/Reducer";
 import { v4 as uuidv4 } from "uuid";
 import { ADD_ITEM, CHANGE_ITEM, DELETE_ITEM } from "./components/Action";
-import "bootstrap/dist/css/bootstrap.css";
 import {
+  Box,
   Button,
   Container,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
+  FormControl,
   Input,
-} from "reactstrap";
-import "react-icons/fa";
-import { FaCheckSquare, FaLightbulb } from "react-icons/fa";
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
+import { CheckBoxSharp } from "@mui/icons-material";
 
 const App = () => {
   const [state, dispatch] = useReducer(Reducer, getInitialTodoList());
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [selectedSort, setSelectedSort] = useState("");
   const [title, setTitle] = useState("All");
   const [currentDate, setCurrentDate] = useState(
     new Date().toISOString().slice(0, 10)
@@ -76,12 +76,16 @@ const App = () => {
     setSelectedFilter(done);
   };
 
+  const handleSortItem = (e) => {
+    setSelectedSort(e);
+  };
+
   useEffect(() => {
     localStorage.setItem("todoList", JSON.stringify(state));
   }, [state]);
 
-  const handleClickToggle = () => {
-    setIsOpen(!isOpen);
+  const handleClickToggle = (e) => {
+    setSelectedSort(e.target.value);
   };
 
   useEffect(() => {
@@ -104,36 +108,80 @@ const App = () => {
 
   const formattedYesterday = yesterday.toISOString().slice(0, 10);
 
-  // const filteredData = state.filter((task) =>
-  //   task.text.toLowerCase().includes(selectedFilter)
-  // );
+  // const filteredData = [...state].sort((a, b) => {
+  //   const dateA = new Date(a.dueDate);
+  //   const dateB = new Date(b.dueDate);
+  //   return dateA - dateB;
+  // });
 
-  const filteredData = state.filter((task) =>
-    selectedFilter === "delay"
-      ? task.dueDate <= formattedYesterday && task.done !== true
-      : selectedFilter === null
-      ? task.done !== true
-      : formatDueDate(task.dueDate) === selectedFilter
-      ? task.dueDate
-      : task.done === selectedFilter ||
+  // const filteredData =
+  //   state.filter((task) =>
+  //     selectedFilter === "delay"
+  //       ? task.dueDate <= formattedYesterday && task.done !== true
+  //       : selectedFilter === null
+  //       ? task.done !== true
+  //       : formatDueDate(task.dueDate) === selectedFilter
+  //       ? task.dueDate
+  //       : task.done === selectedFilter ||
+  //         task.text.toLowerCase().includes(selectedFilter)
+  //   ) && selectedFilter === "old"
+  //     ? [...state].sort((a, b) => {
+  //         const dateA = new Date(a.dueDate);
+  //         const dateB = new Date(b.dueDate);
+  //         return dateA - dateB;
+  //       })
+  //     : selectedFilter === "new"
+  //     ? [...state].sort((a, b) => {
+  //         const dateA = new Date(a.dueDate);
+  //         const dateB = new Date(b.dueDate);
+  //         return dateB - dateA;
+  //       })
+
+  let filteredData = state.filter((task) => {
+    if (selectedFilter === "delay") {
+      return task.dueDate <= formattedYesterday && task.done !== true;
+    } else if (selectedFilter === null) {
+      return task.done !== true;
+    } else if (formatDueDate(task.dueDate) === selectedFilter) {
+      return true;
+    } else {
+      return (
+        task.done === selectedFilter ||
         task.text.toLowerCase().includes(selectedFilter)
-  );
+      );
+    }
+  });
+  console.log("Filtered", filteredData);
+
+  if (selectedSort === "Old to New") {
+    filteredData = [...filteredData].sort((a, b) => {
+      const dateA = new Date(a.dueDate);
+      const dateB = new Date(b.dueDate);
+      return dateA - dateB;
+    });
+  } else if (selectedSort === "New to Old") {
+    filteredData = [...filteredData].sort((a, b) => {
+      const dateA = new Date(a.dueDate);
+      const dateB = new Date(b.dueDate);
+      return dateB - dateA;
+    });
+  }
 
   return (
-    <Container id="list" fluid>
-      <div
+    <Container id="list">
+      <Box
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <h1 style={{ textAlign: "center", color: "blue" }}>
-          <FaCheckSquare /> Task App
+        <h1 id="heading">
+          <CheckBoxSharp id="checkIcon" /> Task App
         </h1>
-      </div>
+      </Box>
 
-      <div
+      <Box
         style={{
           display: "flex",
           justifyContent: "center",
@@ -141,7 +189,7 @@ const App = () => {
         }}
       >
         <AddTask handleAddItem={handleAddItem} />
-      </div>
+      </Box>
 
       <hr
         style={{
@@ -152,7 +200,7 @@ const App = () => {
           marginRight: "1rem",
         }}
       />
-      <div
+      <Box
         style={{
           display: "flex",
           justifyContent: "space-evenly",
@@ -165,29 +213,38 @@ const App = () => {
           type="text"
           placeholder="Search Task"
           onChange={(e) => handleFilterItem(e.target.value)}
-          style={{ width: "50%" }}
+          // style={{ width: "50%" }}
         />
-        <Dropdown isOpen={isOpen} toggle={handleClickToggle}>
-          <DropdownToggle caret>Filter</DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem onClick={() => handleFilterItem(null)}>
-              All
-            </DropdownItem>
-            <DropdownItem
-              onClick={() => handleFilterItem(formatDueDate(currentDate))}
+
+        <FormControl
+          sx={{
+            width: {
+              md: "150px",
+              xs: "100px",
+              fontSize: { md: "1.2rem", xs: "1rem" },
+            },
+          }}
+        >
+          <InputLabel id="demo-simple-select-label">SortBy</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={selectedSort}
+            label="Sort"
+            onChange={handleClickToggle}
+          >
+            <MenuItem
+              sx={{ fontSize: { md: "1.2rem", xs: "1rem" } }}
+              value={"SortBy"}
             >
-              Today's Task
-            </DropdownItem>
-            <DropdownItem onClick={() => handleFilterItem(true)}>
-              Completed
-            </DropdownItem>
-            <DropdownItem onClick={() => handleFilterItem("delay")}>
-              Delay
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </div>
-      <div
+              Default
+            </MenuItem>
+            <MenuItem value={"Old to New"}>Old to New</MenuItem>
+            <MenuItem value={"New to Old"}>New to Old</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box
         style={{
           display: "flex",
           justifyContent: "space-around",
@@ -232,7 +289,7 @@ const App = () => {
         >
           Overdue Tasks
         </Button>
-      </div>
+      </Box>
       <hr
         style={{
           height: "3px",
@@ -240,7 +297,7 @@ const App = () => {
           marginRight: "1rem",
         }}
       />
-      <div
+      <Box
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -259,11 +316,11 @@ const App = () => {
 
         <p>Due Date</p>
         <p>Actions</p>
-      </div>
-      <div>
+      </Box>
+      <Box>
         {" "}
         {filteredData.map((task) => (
-          <div
+          <Box
             key={task.id}
             style={{
               backgroundColor: task.done
@@ -286,9 +343,9 @@ const App = () => {
               handleChangeItem={handleChangeItem}
               handleDeleteItem={handleDeleteItem}
             />
-          </div>
+          </Box>
         ))}
-      </div>
+      </Box>
     </Container>
   );
 };

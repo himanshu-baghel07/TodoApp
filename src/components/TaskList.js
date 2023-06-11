@@ -1,6 +1,7 @@
+import { DeleteForever, Edit, Label } from "@mui/icons-material";
+import { Box, Button, Input, List } from "@mui/material";
 import React, { useState } from "react";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { Button, Input, Label } from "reactstrap";
+import Checkbox from "@mui/material/Checkbox";
 
 const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -52,7 +53,7 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
   } else {
     content = (
       <>
-        <div
+        <Box
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -60,7 +61,7 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
             width: "50%",
           }}
         >
-          <Label
+          <List
             style={{
               width: "70%",
               wordWrap: "break-word",
@@ -71,8 +72,8 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
           >
             {" "}
             {task.text}
-          </Label>
-          <Label
+          </List>
+          <List
             style={{
               width: "20%",
               borderLeft: "2px solid black",
@@ -81,28 +82,28 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
           >
             {" "}
             {formatDueDate(task.dueDate)}
-          </Label>
-        </div>
+          </List>
+        </Box>
 
-        <div
+        <Box
           style={{
             marginLeft: "auto",
             justifySelf: "end",
             display: "flex",
             alignItems: "center",
-            gap: "10px",
+            gap: { md: "10px", xs: 0 },
           }}
         >
-          <FaEdit
+          <Edit
             onClick={() => setIsEditing(true)}
             style={{ color: "blue", cursor: "pointer" }}
           />
           {"  "}
-          <FaTrashAlt
+          <DeleteForever
             onClick={() => handleDeleteItem(task.id)}
             style={{ color: "red", cursor: "pointer" }}
           />
-        </div>
+        </Box>
       </>
     );
   }
@@ -112,25 +113,18 @@ const TaskList = ({ task, handleChangeItem, handleDeleteItem }) => {
   };
 
   return (
-    <div
-      style={{
-        marginLeft: "5%",
-        marginRight: "5%",
-        display: "flex",
-
-        alignItems: "center",
-        gap: "15%",
-        fontSize: "1.2rem",
-      }}
-    >
-      <Input
-        type="checkbox"
+    <Box id="box1">
+      <Checkbox
         checked={task.done}
         onChange={handleCheckboxChange}
-        style={{ borderColor: "black", cursor: "pointer", fontSize: "1.5rem" }}
+        style={{
+          cursor: "pointer",
+          fontSize: "1.5rem",
+          color: "blue",
+        }}
       />
       {content}
-    </div>
+    </Box>
   );
 };
 
