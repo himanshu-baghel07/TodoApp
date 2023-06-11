@@ -23,10 +23,15 @@
 }
 #addTaskInput {
   width: 30vw;
+  text-align: center;
+}
+#addTaskInput::placeholder {
+  text-align: center;
 }
 #addTaskDuedate {
-  width: 20vw;
+  width: 15vw;
 }
+
 #addButton {
   background-color: blue;
   color: white;
@@ -58,7 +63,7 @@
     width: 70vw;
   }
   #addTaskDuedate {
-    width: 50vw;
+    width: 35vw;
   }
   #addButton {
     margin-top: 5%;

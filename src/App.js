@@ -19,7 +19,6 @@ import { CheckBoxSharp } from "@mui/icons-material";
 
 const App = () => {
   const [state, dispatch] = useReducer(Reducer, getInitialTodoList());
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [selectedSort, setSelectedSort] = useState("");
   const [title, setTitle] = useState("All");
@@ -76,10 +75,6 @@ const App = () => {
     setSelectedFilter(done);
   };
 
-  const handleSortItem = (e) => {
-    setSelectedSort(e);
-  };
-
   useEffect(() => {
     localStorage.setItem("todoList", JSON.stringify(state));
   }, [state]);
@@ -100,42 +95,10 @@ const App = () => {
 
   console.log("TT", formatDueDate(currentDate));
 
-  // const currentDate = new Date().toISOString().slice(0, 10);
-  // console.log("DD", dd);
-
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
 
   const formattedYesterday = yesterday.toISOString().slice(0, 10);
-
-  // const filteredData = [...state].sort((a, b) => {
-  //   const dateA = new Date(a.dueDate);
-  //   const dateB = new Date(b.dueDate);
-  //   return dateA - dateB;
-  // });
-
-  // const filteredData =
-  //   state.filter((task) =>
-  //     selectedFilter === "delay"
-  //       ? task.dueDate <= formattedYesterday && task.done !== true
-  //       : selectedFilter === null
-  //       ? task.done !== true
-  //       : formatDueDate(task.dueDate) === selectedFilter
-  //       ? task.dueDate
-  //       : task.done === selectedFilter ||
-  //         task.text.toLowerCase().includes(selectedFilter)
-  //   ) && selectedFilter === "old"
-  //     ? [...state].sort((a, b) => {
-  //         const dateA = new Date(a.dueDate);
-  //         const dateB = new Date(b.dueDate);
-  //         return dateA - dateB;
-  //       })
-  //     : selectedFilter === "new"
-  //     ? [...state].sort((a, b) => {
-  //         const dateA = new Date(a.dueDate);
-  //         const dateB = new Date(b.dueDate);
-  //         return dateB - dateA;
-  //       })
 
   let filteredData = state.filter((task) => {
     if (selectedFilter === "delay") {
@@ -198,11 +161,12 @@ const App = () => {
           marginLeft: "15%",
           backgroundColor: "black",
           marginRight: "1rem",
+          marginTop: "5%",
         }}
       />
       <Box
         style={{
-          display: "flex",
+          display: state.length > 0 ? "flex" : "none",
           justifyContent: "space-evenly",
           alignItems: "center",
           marginTop: "2%",
@@ -246,7 +210,7 @@ const App = () => {
       </Box>
       <Box
         style={{
-          display: "flex",
+          display: state.length > 0 ? "flex" : "none",
           justifyContent: "space-around",
           alignItems: "center",
         }}
@@ -297,9 +261,10 @@ const App = () => {
           marginRight: "1rem",
         }}
       />
+
       <Box
         style={{
-          display: "flex",
+          display: state.length > 0 ? "flex" : "none",
           justifyContent: "space-between",
           alignItems: "center",
           paddingLeft: "5%",
@@ -337,7 +302,6 @@ const App = () => {
               border: "1px solid navy",
             }}
           >
-            {/* "#47de54" : "#fc6d76" */}
             <TaskList
               task={task}
               handleChangeItem={handleChangeItem}

@@ -1,4 +1,4 @@
-import { DeleteForever, Edit, Label } from "@mui/icons-material";
+import { DeleteForever, Edit } from "@mui/icons-material";
 import { Box, Button, Input, List } from "@mui/material";
 import React, { useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
