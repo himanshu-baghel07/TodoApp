@@ -1,49 +1,84 @@
 #list {
-  padding: 2%;
-  width: 80%;
+  padding: 0%;
+  width: 100%;
+  height: 100vh;
   background-color: rgb(234, 239, 244);
-  margin: 5% auto 2%;
+
+  margin: 0%;
   box-shadow: 0 2px 5px gray;
+  overflow-y: auto;
 }
+
 #box1 {
   display: flex;
   gap: 15%;
-  /* margin-left: 5%,
-  margin-right:5%,
-  display: "flex",
-
-  alignItems: "center",
-  gap: "15%",
-  fontSize: { md: "1.2rem", xs: "1rem" }, */
 }
 #addTask {
   width: 100%;
+
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 1%;
+}
+#header {
+  background: radial-gradient(white, navy);
 }
 #addTaskInput {
-  width: 30vw;
-  text-align: center;
+  width: 40vw;
+  text-align: left;
+  background-color: white;
+  border-radius: 5px;
 }
 #addTaskInput::placeholder {
   text-align: center;
-}
-#addTaskDuedate {
-  width: 15vw;
+  font-size: 1.2rem;
 }
 
 #addButton {
-  background-color: blue;
   color: white;
+  background-color: rgb(9, 9, 192);
+  width: 10%;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
 }
 #heading {
-  font-size: 3rem;
-  color: darkblue;
+  font-size: 2.2rem;
+  color: rgb(9, 9, 192);
   display: flex;
   align-items: center;
+  text-shadow: 1px 5px 5px white;
 }
 #checkIcon {
-  font-size: 3rem;
+  font-size: 2.2rem;
+  margin-right: 5px;
+  background-color: antiquewhite;
+  /* box-shadow: 1px 5px 15px white; */
+}
+#modalView {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25%;
+
+  background-color: white;
+  border: 2px solid #000;
+  box-shadow: 24;
+  padding: 4;
+}
+#searchText {
+  background-color: white;
+  border-radius: 5px;
+  width: 30vw;
+}
+
+#searchSort {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
 @media (max-width: 600px) {
@@ -58,20 +93,35 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    gap: 5px;
   }
   #addTaskInput {
     width: 70vw;
+    height: 2vh;
   }
   #addTaskDuedate {
-    width: 35vw;
+    height: 2vh;
+    width: 10vw;
   }
   #addButton {
-    margin-top: 5%;
+    margin-top: 2%;
+    width: 30%;
   }
   #heading {
-    font-size: 2.5rem;
+    font-size: 2rem;
+    margin-top: 2%;
+    margin-bottom: 3%;
   }
   #checkIcon {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
+  #modalView {
+    width: 90%;
+  }
+  #searchText {
+    height: 2vh;
+  }
+}
+#card {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='400' height='300' preserveAspectRatio='none' viewBox='0 0 400 300'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1019%26quot%3b)' fill='none'%3e%3crect width='400' height='300' x='0' y='0' fill='rgba(179%2c 179%2c 241%2c 1)'%3e%3c/rect%3e%3cpath d='M 0%2c60 C 16%2c77.8 48%2c149 80%2c149 C 112%2c149 128%2c63 160%2c60 C 192%2c57 208%2c144.4 240%2c134 C 272%2c123.6 288%2c7.6 320%2c8 C 352%2c8.4 384%2c110.4 400%2c136L400 300L0 300z' fill='rgba(167%2c 167%2c 227%2c 1)'%3e%3c/path%3e%3cpath d='M 0%2c296 C 26.8%2c267 80.4%2c158.4 134%2c151 C 187.6%2c143.6 214.8%2c250.6 268%2c259 C 321.2%2c267.4 373.6%2c206.2 400%2c193L400 300L0 300z' fill='rgba(144%2c 144%2c 214%2c 1)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1019'%3e%3crect width='400' height='300' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
 }

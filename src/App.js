@@ -10,12 +10,13 @@ import {
   Button,
   Container,
   FormControl,
-  Input,
   InputLabel,
   MenuItem,
   Select,
+  TextField,
 } from "@mui/material";
 import { CheckBoxSharp } from "@mui/icons-material";
+import { motion } from "framer-motion";
 
 const App = () => {
   const [state, dispatch] = useReducer(Reducer, getInitialTodoList());
@@ -104,7 +105,7 @@ const App = () => {
     if (selectedFilter === "delay") {
       return task.dueDate <= formattedYesterday && task.done !== true;
     } else if (selectedFilter === null) {
-      return task.done !== true;
+      return task;
     } else if (formatDueDate(task.dueDate) === selectedFilter) {
       return true;
     } else {
@@ -131,184 +132,189 @@ const App = () => {
   }
 
   return (
-    <Container id="list">
+    <Container id="list" maxWidth={false}>
       <Box
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        component={motion.div}
+        initial={{ scale: 10 }}
+        animate={{ scale: 1, transition: { duration: 0.5 } }}
+        id="header"
       >
-        <h1 id="heading">
-          <CheckBoxSharp id="checkIcon" /> Task App
-        </h1>
-      </Box>
+        <Box
+          component={motion.div}
+          initial={{ scale: 4 }}
+          animate={{ scale: 1, transition: { duration: 1, delay: 1 } }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h1 id="heading">
+            <CheckBoxSharp id="checkIcon" /> Task App
+          </h1>
+        </Box>
 
-      <Box
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <AddTask handleAddItem={handleAddItem} />
-      </Box>
+        <Box
+          component={motion.div}
+          initial={{ x: -1500 }}
+          animate={{ x: 0, transition: { duration: 1, delay: 1.5 } }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <AddTask handleAddItem={handleAddItem} />
+        </Box>
 
-      <hr
-        style={{
-          height: "1px",
-          width: "70%",
-          marginLeft: "15%",
-          backgroundColor: "black",
-          marginRight: "1rem",
-          marginTop: "5%",
-        }}
-      />
-      <Box
-        style={{
-          display: state.length > 0 ? "flex" : "none",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          marginTop: "2%",
-          marginBottom: "5%",
-        }}
-      >
-        <Input
-          type="text"
-          placeholder="Search Task"
-          onChange={(e) => handleFilterItem(e.target.value)}
-          // style={{ width: "50%" }}
+        <motion.hr
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1, transition: { duration: 0.8, delay: 1.2 } }}
+          style={{
+            height: "1px",
+            width: "70%",
+            marginLeft: "15%",
+            color: "white",
+
+            marginRight: "1rem",
+            marginTop: "1%",
+          }}
         />
+        <Box
+          id="searchSort"
+          component={motion.div}
+          initial={{ x: -1500 }}
+          animate={{ x: 0, transition: { duration: 1, delay: 1.5 } }}
+        >
+          <TextField
+            id="searchText"
+            type="text"
+            placeholder="Search Task"
+            onChange={(e) => handleFilterItem(e.target.value)}
+          />
 
-        <FormControl
-          sx={{
-            width: {
-              md: "150px",
-              xs: "100px",
-              fontSize: { md: "1.2rem", xs: "1rem" },
-            },
-          }}
-        >
-          <InputLabel id="demo-simple-select-label">SortBy</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={selectedSort}
-            label="Sort"
-            onChange={handleClickToggle}
-          >
-            <MenuItem
-              sx={{ fontSize: { md: "1.2rem", xs: "1rem" } }}
-              value={"SortBy"}
-            >
-              Default
-            </MenuItem>
-            <MenuItem value={"Old to New"}>Old to New</MenuItem>
-            <MenuItem value={"New to Old"}>New to Old</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      <Box
-        style={{
-          display: state.length > 0 ? "flex" : "none",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <Button
-          style={{
-            backgroundColor: title === "All" ? "#1bfa57" : "white",
-            color: "black",
-          }}
-          onClick={() => (handleFilterItem(null), setTitle("All"))}
-        >
-          All Tasks
-        </Button>
-        <Button
-          style={{
-            backgroundColor: title === "Today" ? "#1bfa57" : "white",
-            color: "black",
-          }}
-          onClick={() =>
-            handleFilterItem(formatDueDate(currentDate), setTitle("Today"))
-          }
-        >
-          Today's Tasks
-        </Button>
-        <Button
-          style={{
-            backgroundColor: title === "Completed" ? "#1bfa57" : "white",
-            color: "black",
-          }}
-          onClick={() => (handleFilterItem(true), setTitle("Completed"))}
-        >
-          Completed Tasks
-        </Button>
-        <Button
-          style={{
-            backgroundColor: title === "Delay" ? "#1bfa57" : "white",
-            color: "black",
-          }}
-          onClick={() => (handleFilterItem("delay"), setTitle("Delay"))}
-        >
-          Overdue Tasks
-        </Button>
-      </Box>
-      <hr
-        style={{
-          height: "3px",
-          backgroundColor: "black",
-          marginRight: "1rem",
-        }}
-      />
-
-      <Box
-        style={{
-          display: state.length > 0 ? "flex" : "none",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingLeft: "5%",
-          paddingRight: "5%",
-          border: "2px solid black",
-          paddingTop: "1%",
-          fontSize: "1.1rem",
-          fontWeight: "600",
-          borderRadius: "10px",
-        }}
-      >
-        <p>Status</p>
-        <p>Tasks</p>
-
-        <p>Due Date</p>
-        <p>Actions</p>
-      </Box>
-      <Box>
-        {" "}
-        {filteredData.map((task) => (
-          <Box
-            key={task.id}
-            style={{
-              backgroundColor: task.done
-                ? "#47de54"
-                : "rgb(234, 239, 244)" &&
-                  task.dueDate < new Date().toISOString().slice(0, 10)
-                ? task.done
-                  ? "#47de54"
-                  : "#fc6d76"
-                : "rgb(234, 239, 244)",
-              padding: "5px",
-              borderRadius: "10px",
-              margin: "5px",
-              border: "1px solid navy",
+          <FormControl
+            id="sortBy"
+            sx={{
+              width: {
+                md: "150px",
+                xs: "100px",
+                fontSize: { md: "1.2rem", xs: "1rem" },
+              },
             }}
           >
-            <TaskList
-              task={task}
-              handleChangeItem={handleChangeItem}
-              handleDeleteItem={handleDeleteItem}
-            />
-          </Box>
-        ))}
+            <InputLabel id="demo-simple-select-label">SortBy</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={selectedSort}
+              label="Sort"
+              onChange={handleClickToggle}
+              sx={{
+                backgroundColor: "white",
+                height: { xs: "6vh", md: "100%" },
+              }}
+            >
+              <MenuItem sx={{ fontSize: "1rem" }} value={"SortBy"}>
+                Default
+              </MenuItem>
+              <MenuItem value={"Old to New"}>Old to New</MenuItem>
+              <MenuItem value={"New to Old"}>New to Old</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "1%",
+            paddingBottom: "1%",
+          }}
+        >
+          <Button
+            component={motion.button}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1, transition: { duration: 0.5, delay: 2 } }}
+            style={{
+              backgroundColor: title === "All" ? "#1bfa57" : "white",
+              color: "black",
+              height: "6vh",
+            }}
+            onClick={() => (handleFilterItem(null), setTitle("All"))}
+          >
+            All Tasks
+          </Button>
+          <Button
+            component={motion.button}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1, transition: { duration: 0.5, delay: 2.5 } }}
+            style={{
+              backgroundColor: title === "Today" ? "#1bfa57" : "white",
+              color: "black",
+              height: "6vh",
+            }}
+            onClick={() =>
+              handleFilterItem(formatDueDate(currentDate), setTitle("Today"))
+            }
+          >
+            Today's Tasks
+          </Button>
+          <Button
+            component={motion.button}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1, transition: { duration: 0.5, delay: 3 } }}
+            style={{
+              backgroundColor: title === "Completed" ? "#1bfa57" : "white",
+              color: "black",
+              height: "6vh",
+            }}
+            onClick={() => (handleFilterItem(true), setTitle("Completed"))}
+          >
+            Completed Tasks
+          </Button>
+          <Button
+            component={motion.button}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1, transition: { duration: 0.5, delay: 3.5 } }}
+            style={{
+              backgroundColor: title === "Delay" ? "#1bfa57" : "white",
+              color: "black",
+              height: "6vh",
+            }}
+            onClick={() => (handleFilterItem("delay"), setTitle("Delay"))}
+          >
+            Overdue Tasks
+          </Button>
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-evenly",
+        }}
+      >
+        {" "}
+        {state.length !== 0
+          ? filteredData.map((task) => (
+              <Box
+                key={task.id}
+                style={{
+                  padding: "5px",
+
+                  margin: "5px",
+                }}
+              >
+                <TaskList
+                  task={task}
+                  handleChangeItem={handleChangeItem}
+                  handleDeleteItem={handleDeleteItem}
+                />
+              </Box>
+            ))
+          : "No Data"}
       </Box>
     </Container>
   );

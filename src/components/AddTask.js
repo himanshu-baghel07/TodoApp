@@ -1,5 +1,6 @@
-import { Box, Button, Input, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 const AddTask = ({ handleAddItem }) => {
   const [inputValue, setInputValue] = useState("");
@@ -18,30 +19,43 @@ const AddTask = ({ handleAddItem }) => {
   };
 
   return (
-    <Box id="addTask">
-      <Input
+    <Box id="addTask" initial={{ x: -1000 }} animate={{ x: 0 }}>
+      <TextField
         id="addTaskInput"
         className="add-task-input"
         value={inputValue}
-        placeholder="Task"
+        placeholder="Task Name"
         required
         onChange={(e) => setInputValue(e.target.value)}
       />
 
-      <Input
+      <TextField
         id="addTaskDuedate"
         type="date"
         value={dueDate}
         placeholder="date"
         required
         onChange={(e) => setDueDate(e.target.value)}
+        sx={{ backgroundColor: "whitesmoke", borderRadius: "5px" }}
       />
+
       {error && (
         <Typography variant="caption" color="error">
           Please enter a value in both fields.
         </Typography>
       )}
-      <Button id="addButton" color="primary" onClick={handleChange}>
+
+      <Button
+        component={motion.button}
+        whileHover={{
+          scale: 1.2,
+          rotate: [0, -10, 10, -10, 0],
+          boxShadow: "0px 0px 20px red",
+        }}
+        transition={{ duration: 0.3 }}
+        id="addButton"
+        onClick={handleChange}
+      >
         Add
       </Button>
     </Box>
