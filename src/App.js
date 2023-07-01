@@ -111,7 +111,7 @@ const App = () => {
     } else {
       return (
         task.done === selectedFilter ||
-        task.text.toLowerCase().includes(selectedFilter)
+        task.text.toLowerCase().includes(selectedFilter.toLowerCase())
       );
     }
   });
